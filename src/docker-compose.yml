@@ -1,0 +1,44 @@
+version: "3.4"
+
+services:
+  catalog-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DB: catalog_db
+      MYSQL_USER: catalog_user
+      MYSQL_PASSWORD: catalog_password
+
+  # cart-db:
+  #   image: redis
+  #   environment:
+  #     MYSQL_DB: catalog_db
+  #     MYSQL_USER: backend_user
+  #     MYSQL_PASSWORD: backend_password
+
+  # auth:
+  #   image: imageName
+  #   build:
+  #     context: .
+  #     dockerfile: Services/Auth/Dockerfile
+
+  catalog-api:
+    build:
+      context: ./Services/Catalog
+    depends_on:
+      - catalog-db
+
+  # cart-api:
+  #   image: imageName
+  #   build:
+  #     context: .
+  #     dockerfile: Services/Auth/Dockerfile
+
+  # payment-api:
+  #   image: imageName
+  #   build:
+  #     context: .
+  #     dockerfile: Services/Auth/Dockerfile
+
+  client:
+    build:
+      context: ./Web
