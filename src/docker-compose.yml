@@ -42,3 +42,5 @@ services:
   client:
     build:
       context: ./Web
+    ports:
+      - "3000:3000"

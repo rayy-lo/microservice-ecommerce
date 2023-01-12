@@ -7,6 +7,6 @@ RUN yarn install
 
 COPY . .
 
-CMD [ "yarn", "dev" ]
+ENTRYPOINT ["yarn"]
 
-EXPOSE 3000
+CMD ["run", "dev"]
