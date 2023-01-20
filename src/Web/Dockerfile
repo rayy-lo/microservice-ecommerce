@@ -5,8 +5,6 @@ COPY package*.json yarn.lock ./
 
 RUN yarn install
 
-COPY . .
+COPY next.config.js ./next.config.js
 
-ENTRYPOINT ["yarn"]
-
-CMD ["run", "dev"]
+CMD ["yarn", "dev"]

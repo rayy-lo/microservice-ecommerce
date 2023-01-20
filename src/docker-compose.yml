@@ -24,12 +24,18 @@ services:
       - catalog-db
     ports:
       - "3001:3001"
+    volumes:
+      - ./Services/Catalog/src:/app/src
 
   client:
     build:
       context: ./Web
     ports:
       - "3000:3000"
+    volumes:
+      - ./Web/pages:/app/pages
+      - ./Web/styles:/app/styles
+      - ./Web/public:/app/public
 
 volumes:
   catalog-db:
