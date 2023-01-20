@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:lts
 
 WORKDIR /app
 
@@ -7,7 +7,11 @@ WORKDIR /app
 # where available (npm@5+)
 COPY package*.json yarn.lock ./
 
+COPY prisma .
+
 RUN yarn install
+
+RUN yarn prisma generate
 
 # Bundle app source
 COPY . .
