@@ -1,5 +1,6 @@
 version: "3.4"
 
+name: micro-ecommerce
 services:
   catalog-db:
     image: mysql:8
@@ -11,8 +12,10 @@ services:
     env_file:
       - .env
     restart: always
+    volumes:
+      - catalog-db:/var/lib/mysql
     ports:
-      - "4001:3306"
+      - "4001:4001"
 
   catalog-api:
     build:
@@ -20,10 +23,13 @@ services:
     depends_on:
       - catalog-db
     ports:
-      - "3001:3306"
+      - "3001:3001"
 
   client:
     build:
       context: ./Web
     ports:
       - "3000:3000"
+
+volumes:
+  catalog-db:
