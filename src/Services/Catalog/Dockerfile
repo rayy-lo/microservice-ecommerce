@@ -11,11 +11,7 @@ COPY prisma .
 
 RUN yarn install
 
-RUN yarn prisma generate
-
 # Bundle app source
 COPY . .
 
-CMD [ "yarn", "dev" ]
-
-EXPOSE 3001
+CMD [ "yarn", "dev:migrate:start" ]

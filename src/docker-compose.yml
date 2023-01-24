@@ -1,9 +1,9 @@
-version: "3.4"
+version: "3.9"
 
 name: micro-ecommerce
 services:
   catalog-db:
-    image: mysql:8
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${CATALOG_ROOT_PASS}
       MYSQL_USER: ${CATALOG_USER}
@@ -12,18 +12,36 @@ services:
     env_file:
       - .env
     restart: always
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysql",
+          "-u$CATALOG_USER",
+          "-p$CATALOG_USER_PASS",
+          "-e",
+          "SELECT 1;",
+        ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
     volumes:
-      - catalog-db:/var/lib/mysql
+      - micro-ecommerce_catalog-db:/var/lib/mysql
     ports:
-      - "4001:4001"
+      - "4001:3306"
 
   catalog-api:
     build:
       context: ./Services/Catalog
     depends_on:
-      - catalog-db
+      catalog-db:
+        condition: service_healthy
     ports:
       - "3001:3001"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${CATALOG_DATABASE_URL}
     volumes:
       - ./Services/Catalog/src:/app/src
 
@@ -38,4 +56,5 @@ services:
       - ./Web/public:/app/public
 
 volumes:
-  catalog-db:
+  micro-ecommerce_catalog-db:
+    external: true
