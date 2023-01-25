@@ -74,12 +74,13 @@ export const createProduct = async (req: Request, res: Response) => {
         imageUrl,
       },
     });
-    res.status(200).json({
+
+    res.setHeader("Location", `/product/${product.id}`);
+    res.status(201).json({
       data: product,
     });
   } catch (error) {
     res.status(400).json({
-      success: false,
       message: error,
     });
   }
