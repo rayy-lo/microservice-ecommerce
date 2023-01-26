@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { DataObject } from "../types/types";
 
 const prisma = new PrismaClient();
 
-export const getProduct = async (req: Request, res: Response) => {
+export const getProduct = async (
+  req: Request,
+  res: Response
+): Promise<DataObject> => {
   try {
     const { id } = req.params;
     const productId = Number(id);
@@ -14,21 +18,20 @@ export const getProduct = async (req: Request, res: Response) => {
       },
     });
 
-    if (product === null) {
-      res.status(404).json({
-        message: "Product Not Found",
-      });
-    }
-
-    res.status(200).json({
+    return {
+      status: 200,
+      success: true,
       data: product,
-    });
+    };
   } catch (error) {
-    res.status(400).json({ message: "Bad Request" });
+    return { status: 400, success: false };
   }
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (
+  req: Request,
+  res: Response
+): Promise<DataObject> => {
   try {
     const { id } = req.params;
     const productId = Number(id);
@@ -39,13 +42,18 @@ export const deleteProduct = async (req: Request, res: Response) => {
       },
     });
 
-    res.setHeader("Location", `/product/${id}`);
-    res.status(204).send();
+    return {
+      status: 200,
+      success: true,
+    };
   } catch (error) {
-    res.status(400).json({ message: "Bad Request" });
+    return { status: 400, success: false };
   }
 };
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (
+  req: Request,
+  res: Response
+): Promise<DataObject> => {
   try {
     const { id } = req.params;
     const { name, price, imageUrl } = req.body;
@@ -56,15 +64,20 @@ export const updateProduct = async (req: Request, res: Response) => {
       data: { name, price, imageUrl },
     });
 
-    res.status(200).json({
+    return {
+      status: 200,
+      success: true,
       data: updatedProduct,
-    });
+    };
   } catch (error) {
-    res.status(400).json({ message: "Bad Request" });
+    return { status: 400, success: false };
   }
 };
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct = async (
+  req: Request,
+  res: Response
+): Promise<DataObject> => {
   try {
     const { name, price, imageUrl } = req.body;
     const product = await prisma.product.create({
@@ -75,13 +88,12 @@ export const createProduct = async (req: Request, res: Response) => {
       },
     });
 
-    res.setHeader("Location", `/product/${product.id}`);
-    res.status(201).json({
+    return {
+      status: 200,
+      success: true,
       data: product,
-    });
+    };
   } catch (error) {
-    res.status(400).json({
-      message: error,
-    });
+    return { status: 400, success: false };
   }
 };
