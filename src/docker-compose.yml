@@ -51,9 +51,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./Web/pages:/app/pages
-      - ./Web/styles:/app/styles
-      - ./Web/public:/app/public
+      - ./Web:/app
 
 volumes:
   micro-ecommerce_catalog-db:
