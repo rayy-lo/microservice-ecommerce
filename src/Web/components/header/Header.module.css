@@ -1,0 +1,39 @@
+.nav {
+  font-size: 1rem;
+  display: flex;
+  letter-spacing: 1px;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.leftNav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.leftNav a:not(.logoLink) {
+  margin-inline-end: 2rem;
+}
+
+.logoLink {
+  margin-inline-end: 10vw;
+  display: flex;
+  align-items: center;
+}
+
+.rightNav {
+  display: flex;
+  width: auto;
+  justify-content: space-between;
+}
+
+.rightNav a {
+  margin-inline-start: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  padding: 1.5rem 3rem;
+}
