@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../public/logo-no-background.png";
-import Cart from "../../public/shopping-bag.png";
-import User from "../../public/user.png";
+import Cart from "../../public/icons/shopping-bag.png";
+import User from "../../public/icons/user.png";
 import styles from "./Header.module.css";
 
 const Header = () => {
