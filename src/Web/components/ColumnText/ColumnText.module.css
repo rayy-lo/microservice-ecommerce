@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 2.5rem 0;
+  font-style: italic;
+}
+
+.columnCard {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  text-align: center;
+}
+
+.columnCard span {
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+}
+
+.columnCard p {
+  font-size: 1rem;
+}
