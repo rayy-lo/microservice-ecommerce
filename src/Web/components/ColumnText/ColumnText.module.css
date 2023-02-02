@@ -1,8 +1,9 @@
 .container {
   display: flex;
   justify-content: space-evenly;
-  padding: 2.5rem 0;
+  padding: 3rem 0;
   font-style: italic;
+  background: var(--primary-color);
 }
 
 .columnCard {
