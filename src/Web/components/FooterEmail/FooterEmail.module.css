@@ -1,0 +1,32 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  max-width: 250px;
+  padding: 0.7rem;
+}
+
+.label {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitBtn {
+  width: 75px;
+  border: 1px solid rgb(133, 133, 133);
+  padding: 0.7rem;
+  background: var(--primary-color);
+  border-left: none;
+  cursor: pointer;
+}
+
+.emailHeader {
+  margin-bottom: 0.5rem;
+  display: block;
+  text-transform: uppercase;
+  text-align: right;
+  /* font-family:  */
+}
