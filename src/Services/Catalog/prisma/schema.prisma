@@ -16,7 +16,7 @@ model Product {
   name String
   price Float
   imageUrl String?
-  description String?
+  description String? @db.TinyText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   inCollections Collection[]
@@ -25,7 +25,7 @@ model Product {
 model Collection {
   id Int @id @default(autoincrement())
   name String
-  description String?
+  description String? @db.TinyText 
   products Product[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

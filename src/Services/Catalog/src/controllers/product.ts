@@ -64,12 +64,12 @@ export const updateProduct = async (
 ): Promise<DataObject> => {
   try {
     const { id } = req.params;
-    const { name, price, imageUrl } = req.body;
+    const { name, price, imageUrl, description } = req.body;
     const productId = Number(id);
 
     const updatedProduct = await prisma.product.update({
       where: { id: productId },
-      data: { name, price, imageUrl },
+      data: { name, price, imageUrl, description },
     });
 
     return {
@@ -87,12 +87,14 @@ export const createProduct = async (
   res: Response
 ): Promise<DataObject> => {
   try {
-    const { name, price, imageUrl } = req.body;
+    const { name, price, imageUrl, description = "" } = req.body;
+
     const product = await prisma.product.create({
       data: {
         name,
         price,
         imageUrl,
+        description,
       },
     });
 
