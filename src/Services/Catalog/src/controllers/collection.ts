@@ -44,6 +44,14 @@ export const createCollection = async (
       },
     });
 
+    if (!collection) {
+      return {
+        status: 404,
+        success: true,
+        data: collection,
+      };
+    }
+
     return {
       status: 200,
       success: true,

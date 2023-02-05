@@ -18,6 +18,14 @@ export const getProduct = async (
       },
     });
 
+    if (!product) {
+      return {
+        status: 404,
+        success: true,
+        data: product,
+      };
+    }
+
     return {
       status: 200,
       success: true,
