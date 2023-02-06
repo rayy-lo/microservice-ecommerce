@@ -50,6 +50,10 @@ services:
       context: ./Web
     ports:
       - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      CATALOG_API_URL: ${CATALOG_API_URL}
     volumes:
       - ./Web:/app
 
