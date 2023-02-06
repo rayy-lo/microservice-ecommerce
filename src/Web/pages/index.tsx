@@ -1,9 +1,10 @@
 import Head from "next/head";
 import ColumnText from "../components/ColumnText/ColumnText";
 import LandingHero from "../components/LandingHero/LandingHero";
+import HomeProducts from "../components/HomeProducts/HomeProducts";
 import LandingHeroImage from "../public/hero-image.jpg";
 
-export default function Home() {
+export default function Home({ collection }) {
   return (
     <>
       <Head>
@@ -18,7 +19,19 @@ export default function Home() {
       <main>
         <LandingHero src={LandingHeroImage} alt="Cat lying on cat bed" />
         <ColumnText />
+        <HomeProducts products={collection.data.data.products} />
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.CATALOG_API_URL}/api/collection/7`);
+  const collection = await res.json();
+
+  return {
+    props: {
+      collection,
+    },
+  };
 }

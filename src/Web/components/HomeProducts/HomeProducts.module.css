@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  padding: 3rem 0;
+}
+
+.productWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 1.25rem;
+}
+
+.productInfo span {
+  font-size: 1.25rem;
+}
