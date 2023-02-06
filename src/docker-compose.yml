@@ -50,6 +50,8 @@ services:
       context: ./Web
     ports:
       - "3000:3000"
+    depends_on:
+      - catalog-api
     env_file:
       - .env
     environment:
