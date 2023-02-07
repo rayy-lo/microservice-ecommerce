@@ -26,7 +26,9 @@ export default function Home({ collection }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.CATALOG_API_URL}/api/collection/7`);
+  const res = await fetch(
+    `${process.env.CATALOG_API_URL}/api/collection/homepage-products`
+  );
   const collection = await res.json();
 
   return {

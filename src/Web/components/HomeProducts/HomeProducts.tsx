@@ -23,7 +23,7 @@ const ProductSlider = ({ products }: ProductSliderProps) => {
       {products.map((product) => {
         return (
           <div className={productWrapper} key={product.id}>
-            <Link href="/">
+            <Link href={product.url}>
               <Image
                 width={200}
                 height={200}
