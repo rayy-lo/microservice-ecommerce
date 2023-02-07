@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
+import { handleize } from "../helpers/handleize";
 
 const prisma = new PrismaClient();
 
@@ -10,11 +11,10 @@ export const getProduct = async (
 ): Promise<DataObject> => {
   try {
     const { id } = req.params;
-    const productId = Number(id);
 
     const product = await prisma.product.findUnique({
       where: {
-        id: productId,
+        handle: id,
       },
     });
 
@@ -42,11 +42,10 @@ export const deleteProduct = async (
 ): Promise<DataObject> => {
   try {
     const { id } = req.params;
-    const productId = Number(id);
 
     await prisma.product.delete({
       where: {
-        id: productId,
+        handle: id,
       },
     });
 
@@ -65,10 +64,9 @@ export const updateProduct = async (
   try {
     const { id } = req.params;
     const { name, price, imageUrl, description } = req.body;
-    const productId = Number(id);
 
     const updatedProduct = await prisma.product.update({
-      where: { id: productId },
+      where: { handle: id },
       data: { name, price, imageUrl, description },
     });
 
@@ -88,12 +86,16 @@ export const createProduct = async (
 ): Promise<DataObject> => {
   try {
     const { name, price, imageUrl, description = "" } = req.body;
+    const handle = handleize(name);
+    const url = `/product/${handle}`;
 
     const product = await prisma.product.create({
       data: {
         name,
         price,
         imageUrl,
+        handle,
+        url,
         description,
       },
     });

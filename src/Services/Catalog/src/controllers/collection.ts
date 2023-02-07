@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
+import { handleize } from "../helpers/handleize";
 
 const prisma = new PrismaClient();
 
@@ -10,10 +11,9 @@ export const getCollection = async (
 ): Promise<DataObject> => {
   try {
     const { id } = req.params;
-    const collectionId = Number(id);
     const collection = await prisma.collection.findUnique({
       where: {
-        id: collectionId,
+        handle: id,
       },
       include: { products: true },
     });
@@ -34,9 +34,14 @@ export const createCollection = async (
 ): Promise<DataObject> => {
   try {
     const { name, products, description } = req.body;
+    const handle = handleize(name);
+    const url = `/collection/${handle}`;
+
     const collection = await prisma.collection.create({
       data: {
         name,
+        handle,
+        url,
         products: {
           connect: products,
         },
@@ -67,11 +72,10 @@ export const deleteCollection = async (
 ): Promise<DataObject> => {
   try {
     const { id } = req.params;
-    const collectionId = Number(id);
 
     await prisma.collection.delete({
       where: {
-        id: collectionId,
+        handle: id,
       },
     });
 
@@ -91,11 +95,10 @@ export const updateCollection = async (
   try {
     const { id } = req.params;
     const { name, description, products } = req.body;
-    const collectionId = Number(id);
 
     const updatedCollection = await prisma.collection.update({
       where: {
-        id: collectionId,
+        handle: id,
       },
       data: { name, description, products },
     });
