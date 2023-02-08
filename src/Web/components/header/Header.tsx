@@ -15,9 +15,9 @@ const Header = () => {
           <Link className={logoLink} href="/">
             <Image width={120} src={Logo} alt="Comme Logo" />
           </Link>
-          <Link href="/products/cat-castle">Cat Castle</Link>
-          <Link href="/products/feline-fortress">Feline Fortress</Link>
-          <Link href="/collections/cat-beds">Cat Beds</Link>
+          <Link href="/collection/best-sellers">Best Sellers</Link>
+          <Link href="/collection/featured">Featured</Link>
+          <Link href="/collection/sale">Sale</Link>
         </div>
         <div className={rightNav}>
           <Link href="/login">

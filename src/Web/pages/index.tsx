@@ -19,7 +19,7 @@ export default function Home({ collection }) {
       <main>
         <LandingHero src={LandingHeroImage} alt="Cat lying on cat bed" />
         <ColumnText />
-        <HomeProducts products={collection.data.data.products} />
+        <HomeProducts products={collection.products} />
       </main>
     </>
   );
