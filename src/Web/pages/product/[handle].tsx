@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import ProductForm from "../../components/ProductForm/ProductForm";
 import styles from "../../styles/ProductPage.module.css";
 
 export default function ProductPage({ product }) {
@@ -25,6 +26,7 @@ export default function ProductPage({ product }) {
           <h2 className={productName}>{product.name}</h2>
           <span className={price}>${product.price}</span>
           <p className={description}>{product.description}</p>
+          <ProductForm />
         </div>
       </section>
     </>
