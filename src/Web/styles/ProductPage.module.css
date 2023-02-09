@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 425px;
 }
 
 .imageContainer {
@@ -29,9 +30,10 @@
 
 .productName {
   margin-bottom: 0.5rem;
+  font-size: 3rem;
 }
 
 .price {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
