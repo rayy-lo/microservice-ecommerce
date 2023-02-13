@@ -8,3 +8,5 @@ RUN yarn install
 
 # Bundle app source
 COPY . .
+
+CMD [ "yarn", "dev" ]

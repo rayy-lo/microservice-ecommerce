@@ -2,6 +2,11 @@ version: "3.9"
 
 name: micro-ecommerce
 services:
+  cart:
+    image: redis:alpine
+    ports:
+      - "3003:3003"
+
   catalog-db:
     image: mysql:8.0
     environment:
@@ -29,6 +34,18 @@ services:
       - micro-ecommerce_catalog-db:/var/lib/mysql
     ports:
       - "4001:3306"
+
+  cart-api:
+    build:
+      context: ./Services/Cart
+    ports:
+      - "3002:3002"
+    depends_on:
+      - cart
+    volumes:
+      - ./Services/Cart/src:/app/src
+    env_file:
+      - .env
 
   catalog-api:
     build:
