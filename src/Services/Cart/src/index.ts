@@ -1,9 +1,11 @@
 import express, { Application } from "express";
 import { createClient } from "redis";
 import cartRouter from "./routes/cart";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/cart", cartRouter);
 
 export const redisClient = createClient({
