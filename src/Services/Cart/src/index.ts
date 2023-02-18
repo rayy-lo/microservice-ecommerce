@@ -2,9 +2,12 @@ import express, { Application } from "express";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import { createClient } from "redis";
+import cartRouter from "./routes/cart";
 
 const app: Application = express();
 app.use(express.json());
+
+app.use("/api/cart", cartRouter);
 
 const RedisStore = connectRedis(session);
 const client = createClient({
