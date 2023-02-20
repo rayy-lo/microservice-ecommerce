@@ -2,11 +2,15 @@ import "../styles/globals.css";
 import type { AppContext, AppProps } from "next/app";
 import { Cormorant_Garamond } from "@next/font/google";
 import Layout from "../layouts/layout";
-import { getCookie, hasCookie } from "cookies-next";
+import { Cart } from "../types/types";
 
 const inter = Cormorant_Garamond({ weight: ["400", "700"], style: ["normal"] });
 
-export default function App({ Component, pageProps }: AppProps) {
+type TProps = AppProps & {
+  cart: Cart;
+};
+
+export default function App({ Component, pageProps, cart }: TProps) {
   return (
     <>
       <style jsx global>{`
@@ -14,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
-      <Layout>
+      <Layout cart={cart}>
         <Component {...pageProps} />
       </Layout>
     </>
@@ -22,14 +26,8 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 App.getInitialProps = async (context: AppContext) => {
-  const { req, res } = context.ctx;
+  const res = await fetch(`${process.env.CART_API_URL}/api/cart`);
+  const cart = await res.json();
 
-  if (req && res) {
-    //Get session ID
-    const sessionId = getCookie("session-id", { req, res });
-  }
-
-  // Client side routing
-
-  return {};
+  return { cart };
 };
