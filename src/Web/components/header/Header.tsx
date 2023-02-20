@@ -4,8 +4,14 @@ import Logo from "../../public/logo-no-background.png";
 import Cart from "../../public/icons/shopping-bag.png";
 import User from "../../public/icons/user.png";
 import styles from "./Header.module.css";
+import { MouseEvent } from "react";
 
-const Header = () => {
+type HeaderProps = {
+  openModal: (e: MouseEvent) => void;
+  itemCount: number;
+};
+
+const Header = ({ openModal, itemCount }: HeaderProps) => {
   const { nav, header, leftNav, rightNav, logoLink } = styles;
 
   return (
@@ -23,9 +29,9 @@ const Header = () => {
           <Link href="/login">
             <Image width={25} src={User} alt="Login" />
           </Link>
-          <Link href="/cart">
-            <Image width={26} height={26} src={Cart} alt="Cart" />
-          </Link>
+          <button onClick={openModal} type="button">
+            <Image width={25} src={Cart} alt="Cart" />
+          </button>
         </div>
       </nav>
     </header>

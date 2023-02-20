@@ -1,0 +1,24 @@
+.cartContainer {
+  width: 325px;
+  background: white;
+  position: fixed;
+  height: 100vh;
+  right: -100%;
+  padding: 3rem 1rem;
+  transition: right 0.3s;
+}
+
+.cartHeader {
+  text-align: center;
+  position: relative;
+}
+
+.cartCloseBtn {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 1.25rem;
+}
