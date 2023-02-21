@@ -2,8 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import styles from "../../styles/ProductPage.module.css";
+import { Product } from "../../types/types";
 
-export default function ProductPage({ product }) {
+interface ProductPageProps {
+  product: Product;
+}
+
+export default function ProductPage({ product }: ProductPageProps) {
   const {
     productContainer,
     productDetails,
@@ -20,13 +25,13 @@ export default function ProductPage({ product }) {
       </Head>
       <section className={productContainer}>
         <div className={imageContainer}>
-          <Image priority fill src={product.imageUrl} alt={product.title} />
+          <Image priority fill src={product.imageUrl} alt={product.name} />
         </div>
         <div className={productDetails}>
           <h2 className={productName}>{product.name}</h2>
           <span className={price}>${product.price}</span>
           <p className={description}>{product.description}</p>
-          <ProductForm />
+          <ProductForm product={product} />
         </div>
       </section>
     </>
