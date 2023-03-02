@@ -2,6 +2,18 @@ version: "3.9"
 
 name: micro-ecommerce
 services:
+  api-gateway:
+    build:
+      context: ./ApiGateway
+    env_file:
+      - .env
+    environment:
+      CART_API_URL: ${CART_API_URL}
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./ApiGateway/src:/app/src
+
   cart:
     image: redis:alpine
     ports:
