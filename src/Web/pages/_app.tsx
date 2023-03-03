@@ -26,7 +26,7 @@ export default function App({ Component, pageProps, cart }: TProps) {
 }
 
 App.getInitialProps = async (context: AppContext) => {
-  const res = await fetch(`${process.env.CART_API_URL}/api/cart`);
+  const res = await fetch(`${process.env.API_GATEWAY_URL}/cart`);
   const cart = await res.json();
 
   return { cart };
