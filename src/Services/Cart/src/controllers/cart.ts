@@ -33,9 +33,8 @@ export const getCart = async (req: Request, res: Response) => {
 };
 
 export const postCart = async (req: Request, res: Response) => {
-  const items = req.body.items || [];
-
   let cartId = req.cookies.cartId;
+  const { items } = req.app.locals;
 
   if (!cartId) {
     const updatedCart = { ...EMPTY_CART, items };
