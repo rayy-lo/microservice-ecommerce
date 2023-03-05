@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { redisClient } from "..";
-import { v4 as uuidv4 } from "uuid";
+import { updateCart } from "../helpers/updateCart";
 
 const EMPTY_CART = {
   items: [],
@@ -9,22 +9,20 @@ const EMPTY_CART = {
 };
 
 const CART_DATA_TTL = 300;
-const COOKIE_OPTIONS = {
-  maxAge: 300 * 1000,
-};
 
 export const getCart = async (req: Request, res: Response) => {
-  let cartId = req.cookies.cartId;
-
-  if (!cartId) {
-    cartId = uuidv4();
-    redisClient.setEx(cartId, CART_DATA_TTL, JSON.stringify(EMPTY_CART));
-    res.cookie("cartId", cartId, COOKIE_OPTIONS);
+  console.log(req.cookies.cartId);
+  if (!req.cookies.cartId) {
+    redisClient.setEx(
+      req.app.locals.cartId,
+      CART_DATA_TTL,
+      JSON.stringify(EMPTY_CART)
+    );
     return res.status(200).json(EMPTY_CART);
   }
 
   try {
-    const cartData = await redisClient.get(cartId);
+    let cartData = await redisClient.get(req.cookies.cartId);
     res.status(200).json(JSON.parse(cartData!));
   } catch (e) {
     console.error(e);
@@ -33,29 +31,29 @@ export const getCart = async (req: Request, res: Response) => {
 };
 
 export const postCart = async (req: Request, res: Response) => {
-  let cartId = req.cookies.cartId;
-  const { items } = req.app.locals;
-
-  if (!cartId) {
-    const updatedCart = { ...EMPTY_CART, items };
-
-    cartId = uuidv4();
-    redisClient.setEx(cartId, CART_DATA_TTL, JSON.stringify(updatedCart));
-    res.cookie("cartId", cartId, COOKIE_OPTIONS);
-    return res.status(200).json(updatedCart);
+  const { newProducts } = req.app.locals;
+  console.log(req.cookies.cartId);
+  if (!req.cookies.cartId) {
+    const newCart = updateCart(EMPTY_CART, newProducts);
+    redisClient.setEx(
+      req.app.locals.cartId,
+      CART_DATA_TTL,
+      JSON.stringify(newProducts)
+    );
+    return res.status(200).json(newCart);
   }
 
   try {
-    // TODO: Handle logic where product is in items
-    // should just change qty
+    const oldCart = await redisClient.get(req.cookies.cartId);
+    const parsedOldCart = JSON.parse(oldCart!);
+    const newCart = updateCart(parsedOldCart, newProducts);
 
-    const cartData = await redisClient.get(cartId);
-    const parsedCartData = JSON.parse(cartData!);
-    const newItems = [...parsedCartData.items, ...items];
-    parsedCartData.items = newItems;
-
-    redisClient.setEx(cartId, CART_DATA_TTL, JSON.stringify(parsedCartData));
-    res.status(200).json(parsedCartData);
+    redisClient.setEx(
+      req.cookies.cartId,
+      CART_DATA_TTL,
+      JSON.stringify(newCart)
+    );
+    res.status(200).json(newCart);
   } catch (e) {
     console.error(e);
     res.status(500).send("Error adding items to cart");
