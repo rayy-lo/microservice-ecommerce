@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { getCart, postCart } from "../controllers/cart";
-import { processCart } from "../middleware/processCart";
+import { getProductData } from "../middleware/getProductData";
 
 const router = Router();
 
 router.get("/", getCart);
-router.post("/", processCart, postCart);
+router.post("/", getProductData, postCart);
 
 export default router;

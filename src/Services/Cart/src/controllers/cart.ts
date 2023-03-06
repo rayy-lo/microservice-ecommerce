@@ -1,24 +1,18 @@
 import { Request, Response } from "express";
 import { redisClient } from "..";
-import { updateCart } from "../helpers/updateCart";
-
-const EMPTY_CART = {
-  items: [],
-  itemCount: 0,
-  totalPrice: 0,
-};
+import Cart from "../model/Cart";
 
 const CART_DATA_TTL = 300;
 
 export const getCart = async (req: Request, res: Response) => {
-  console.log(req.cookies.cartId);
   if (!req.cookies.cartId) {
+    const cart = new Cart();
     redisClient.setEx(
       req.app.locals.cartId,
       CART_DATA_TTL,
-      JSON.stringify(EMPTY_CART)
+      JSON.stringify(cart)
     );
-    return res.status(200).json(EMPTY_CART);
+    return res.status(200).json(cart);
   }
 
   try {
@@ -32,9 +26,9 @@ export const getCart = async (req: Request, res: Response) => {
 
 export const postCart = async (req: Request, res: Response) => {
   const { newProducts } = req.app.locals;
-  console.log(req.cookies.cartId);
-  if (!req.cookies.cartId) {
-    const newCart = updateCart(EMPTY_CART, newProducts);
+  if (!req.cookies.cartId && req.app.locals.cartId) {
+    const newCart = new Cart([], newProducts);
+
     redisClient.setEx(
       req.app.locals.cartId,
       CART_DATA_TTL,
@@ -46,7 +40,7 @@ export const postCart = async (req: Request, res: Response) => {
   try {
     const oldCart = await redisClient.get(req.cookies.cartId);
     const parsedOldCart = JSON.parse(oldCart!);
-    const newCart = updateCart(parsedOldCart, newProducts);
+    const newCart = new Cart(parsedOldCart.items, newProducts);
 
     redisClient.setEx(
       req.cookies.cartId,

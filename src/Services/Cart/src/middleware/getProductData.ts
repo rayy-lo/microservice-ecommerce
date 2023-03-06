@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import axios from "axios";
+import { Product } from "../model/Cart";
 
 type PostProduct = {
   id: number;
   quantity: number;
 };
 
-export const processCart = async (
+export const getProductData = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,7 +21,17 @@ export const processCart = async (
     `${process.env.CATALOG_API_URL}/api/product/${productIds[0]}`
   );
 
-  req.app.locals.newProducts = [data];
+  const newProducts: Product[] = [];
+
+  if (data) {
+    const newData = {
+      ...data,
+      quantity: items[0].quantity,
+    };
+    newProducts.push(newData);
+  }
+
+  req.app.locals.newProducts = newProducts;
 
   next();
 };
