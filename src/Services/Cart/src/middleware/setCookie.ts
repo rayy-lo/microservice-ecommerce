@@ -5,11 +5,7 @@ const COOKIE_OPTIONS = {
   maxAge: 300 * 1000,
 };
 
-export const handleCookie = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const setCookie = (req: Request, res: Response, next: NextFunction) => {
   if (!req.cookies.cartId) {
     const sessionId = uuidv4();
     req.app.locals.cartId = sessionId;
