@@ -38,7 +38,7 @@ class Cart {
       0
     );
     this.totalPrice = this.items.reduce(
-      (acc, product) => acc + product.price,
+      (acc, product) => acc + product.price * product.quantity,
       0
     );
   }
