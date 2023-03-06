@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
 import { handleize } from "../helpers/handleize";
+import { isStringOnlyNumbers } from "../helpers/isStringOnlyNumbers";
 
 const prisma = new PrismaClient();
 
@@ -10,11 +11,13 @@ export const getProduct = async (
   res: Response
 ): Promise<DataObject> => {
   try {
-    const { id } = req.params;
+    let id: string | number = req.params.id;
+    const propertyToFind = isStringOnlyNumbers(id) ? "id" : "handle";
+    if (isStringOnlyNumbers(id)) id = parseInt(req.params.id);
 
     const product = await prisma.product.findUnique({
       where: {
-        handle: id,
+        [propertyToFind]: id,
       },
     });
 
@@ -41,11 +44,13 @@ export const deleteProduct = async (
   res: Response
 ): Promise<DataObject> => {
   try {
-    const { id } = req.params;
+    let id: string | number = req.params.id;
+    const propertyToFind = isStringOnlyNumbers(id) ? "id" : "handle";
+    if (isStringOnlyNumbers(id)) id = parseInt(req.params.id);
 
     await prisma.product.delete({
       where: {
-        handle: id,
+        [propertyToFind]: id,
       },
     });
 
@@ -62,11 +67,14 @@ export const updateProduct = async (
   res: Response
 ): Promise<DataObject> => {
   try {
-    const { id } = req.params;
+    let id: string | number = req.params.id;
+    const propertyToFind = isStringOnlyNumbers(id) ? "id" : "handle";
+    if (isStringOnlyNumbers(id)) id = parseInt(req.params.id);
+
     const { name, price, imageUrl, description } = req.body;
 
     const updatedProduct = await prisma.product.update({
-      where: { handle: id },
+      where: { [propertyToFind]: id },
       data: { name, price, imageUrl, description },
     });
 
