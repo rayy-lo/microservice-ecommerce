@@ -7,11 +7,10 @@ import styles from "./Header.module.css";
 import { MouseEvent } from "react";
 
 type HeaderProps = {
-  openModal: (e: MouseEvent) => void;
-  itemCount: number;
+  toggleCart: (e: MouseEvent) => void;
 };
 
-const Header = ({ openModal, itemCount }: HeaderProps) => {
+const Header = ({ toggleCart }: HeaderProps) => {
   const { nav, header, leftNav, rightNav, logoLink } = styles;
 
   return (
@@ -29,7 +28,7 @@ const Header = ({ openModal, itemCount }: HeaderProps) => {
           <Link href="/login">
             <Image width={25} src={User} alt="Login" />
           </Link>
-          <button onClick={openModal} type="button">
+          <button onClick={toggleCart} type="button">
             <Image width={25} src={Cart} alt="Cart" />
           </button>
         </div>
