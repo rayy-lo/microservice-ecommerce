@@ -1,33 +1,40 @@
 import "../styles/globals.css";
-import type { AppContext, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { Cormorant_Garamond } from "@next/font/google";
 import Layout from "../layouts/layout";
-import { Cart } from "../types/types";
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+} from "@tanstack/react-query";
+import { useState } from "react";
 
 const inter = Cormorant_Garamond({ weight: ["400", "700"], style: ["normal"] });
 
-type TProps = AppProps & {
-  cart: Cart;
-};
+export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => new QueryClient());
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-export default function App({ Component, pageProps, cart }: TProps) {
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <style jsx global>{`
         html {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
-      <Layout cart={cart}>
-        <Component {...pageProps} />
-      </Layout>
-    </>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Layout toggleCart={toggleCart}>
+          <Component
+            {...pageProps}
+            toggleCart={toggleCart}
+            isCartOpen={isCartOpen}
+          />
+        </Layout>
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
-
-App.getInitialProps = async (context: AppContext) => {
-  const res = await fetch(`${process.env.API_GATEWAY_URL}/cart`);
-  const cart = await res.json();
-
-  return { cart };
-};
