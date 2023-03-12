@@ -7,9 +7,12 @@ import ModalBackground from "../components/ModalBackground/ModalBackground";
 import SideCart from "../components/SideCart/SideCart";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getCart, useCart } from "../hooks/useCart";
+import { getCollection, useCollection } from "../hooks/useCollection";
 
 export default function Home({ isCartOpen, toggleCart }) {
-  const { data: cart, isLoading, isError } = useCart();
+  const { data: cart, isLoading: cartIsLoading } = useCart();
+  const { data: collection, isLoading: collectionIsLoading } =
+    useCollection("homepage-products");
 
   return (
     <>
@@ -23,12 +26,14 @@ export default function Home({ isCartOpen, toggleCart }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ModalBackground isOpen={isCartOpen}>
-        {isLoading ? "" : <SideCart cart={cart!} closeModal={toggleCart} />}
+        {!cartIsLoading && <SideCart cart={cart!} closeModal={toggleCart} />}
       </ModalBackground>
       <main>
         <LandingHero src={LandingHeroImage} alt="Cat lying on cat bed" />
         <ColumnText />
-        {/* <HomeProducts products={collection.products} /> */}
+        {!collectionIsLoading && (
+          <HomeProducts products={collection?.products} />
+        )}
       </main>
     </>
   );
@@ -38,7 +43,10 @@ export async function getServerSideProps() {
   const queryClient = new QueryClient();
 
   try {
-    await Promise.all([queryClient.prefetchQuery(["cart", getCart])]);
+    await Promise.all([
+      queryClient.prefetchQuery(["cart", getCart]),
+      queryClient.prefetchQuery(["homepage-products", getCollection]),
+    ]);
   } catch (err) {
     console.error(err);
   }
