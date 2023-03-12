@@ -5,9 +5,9 @@ const cartProxy = createProxyMiddleware("/cart", {
   changeOrigin: true,
 });
 
-const collectionProxy = createProxyMiddleware("/collection", {
+const catalogProxy = createProxyMiddleware(["/collection", "/product"], {
   target: `${process.env.CATALOG_API_URL}/api/`,
   changeOrigin: true,
 });
 
-export { cartProxy, collectionProxy };
+export { cartProxy, catalogProxy };
