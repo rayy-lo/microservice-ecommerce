@@ -80,11 +80,11 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - catalog-api
+      - api-gateway
     env_file:
       - .env
     environment:
-      CATALOG_API_URL: ${CATALOG_API_URL}
+      API_GATEWAY_URL: ${API_GATEWAY_URL}
     volumes:
       - ./Web:/app
 
