@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "dev:migrate:start": "prisma migrate dev && yarn run dev"
+    "dev:migrate:start": "prisma migrate dev && yarn run dev",
+    "dev:start": "prisma db pull && yarn run dev"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
