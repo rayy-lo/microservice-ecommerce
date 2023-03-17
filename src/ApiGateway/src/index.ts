@@ -5,7 +5,12 @@ import cors from "cors";
 const app: Application = express();
 const PORT = 3004;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+);
 
 app.use(cartProxy);
 app.use(["/collection", "/product"], catalogProxy);

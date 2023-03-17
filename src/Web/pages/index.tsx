@@ -6,8 +6,8 @@ import LandingHeroImage from "../public/hero-image.jpg";
 import ModalBackground from "../components/ModalBackground/ModalBackground";
 import SideCart from "../components/SideCart/SideCart";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { getCart, useCart } from "../hooks/useCart";
-import { getCollection, useCollection } from "../hooks/useCollection";
+import { useCart } from "../hooks/useCart";
+import { useCollection } from "../hooks/useCollection";
 
 export default function Home({ isCartOpen, toggleCart }) {
   const { data: cart, isLoading: cartIsLoading } = useCart();
@@ -32,23 +32,45 @@ export default function Home({ isCartOpen, toggleCart }) {
         <LandingHero src={LandingHeroImage} alt="Cat lying on cat bed" />
         <ColumnText />
         {!collectionIsLoading && (
-          <HomeProducts products={collection?.products} />
+          <HomeProducts products={collection.products} />
         )}
       </main>
     </>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
 
   try {
+    const fetchOptions: RequestInit = {
+      headers: {
+        cookie: context.req.cookies["cartId"]
+          ? `cartId=${context.req.cookies["cartId"]}`
+          : "",
+      },
+    };
+
     await Promise.all([
-      queryClient.prefetchQuery(["cart", getCart]),
-      queryClient.prefetchQuery(["homepage-products", getCollection]),
+      queryClient.fetchQuery(["cart"], () =>
+        fetch(`${process.env.API_GATEWAY_URL}/cart`, fetchOptions).then(
+          (res) => {
+            const cartCookie = res.headers.get("set-cookie");
+            context.res.setHeader("set-cookie", cartCookie);
+            return res.json();
+          }
+        )
+      ),
+      queryClient.prefetchQuery({
+        queryKey: ["homepage-products"],
+        queryFn: ({ queryKey }) =>
+          fetch(
+            `${process.env.API_GATEWAY_URL}/collection/${queryKey[0]}`
+          ).then((res) => res.json()),
+      }),
     ]);
   } catch (err) {
-    console.error(err);
+    console.error("Fetch Error", err);
   }
 
   return {
