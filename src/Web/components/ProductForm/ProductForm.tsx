@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { FormEvent } from "react";
+import { addToCart } from "../../hooks/useAddToCart";
 import { Product } from "../../types/types";
 import styles from "./ProductForm.module.css";
 
@@ -8,15 +10,30 @@ interface ProductFormProps {
 
 export default function ProductForm({ product }: ProductFormProps) {
   const { form, button } = styles;
-  const [selectedVariant, setSelectedVariant] = useState(product.id);
+  // TODO: Can add option to handle different variants like color, size...
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    const url = `${process.env.CART_API_URL}/api/cart`;
+  const addProduct = useMutation({
+    mutationFn: (data) => {
+      return addToCart(data);
+    },
+  });
+
+  const submitForm = (event: FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+
+    const productId: string | null =
+      event.currentTarget.getAttribute("data-product-id");
+
+    if (productId) {
+      const quantity = formData.get("quantity");
+      addProduct.mutate({ id: productId, quantity });
+    }
   };
 
   return (
-    <form className={form} onSubmit={handleAddToCart}>
+    <form data-product-id={product.id} className={form} onSubmit={submitForm}>
+      <input name="quantity" type="number" min={1} defaultValue={1}></input>
       <button className={button} type="submit">
         Add To Cart
       </button>
