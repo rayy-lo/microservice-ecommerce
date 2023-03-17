@@ -26,7 +26,7 @@ export const getProductData = async (
   if (data) {
     const newData = {
       ...data,
-      quantity: items[0].quantity,
+      quantity: parseInt(items[0].quantity),
     };
     newProducts.push(newData);
   }
