@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { redisClient } from "..";
 import Cart from "../model/Cart";
 
-const CART_DATA_TTL = 300;
+const CART_DATA_TTL = 60 * 60 * 24; // Expires in 1 day;
 
 export const getCart = async (req: Request, res: Response) => {
   if (!req.cookies.cartId) {
@@ -40,7 +40,7 @@ export const postCart = async (req: Request, res: Response) => {
   try {
     const oldCart = await redisClient.get(req.cookies.cartId);
     const parsedOldCart = JSON.parse(oldCart!);
-    const newCart = new Cart(parsedOldCart.items, newProducts);
+    const newCart = new Cart(parsedOldCart?.items, newProducts);
 
     redisClient.setEx(
       req.cookies.cartId,
