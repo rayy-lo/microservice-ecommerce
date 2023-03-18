@@ -4,13 +4,8 @@ import Logo from "../../public/logo-no-background.png";
 import Cart from "../../public/icons/shopping-bag.png";
 import User from "../../public/icons/user.png";
 import styles from "./Header.module.css";
-import { MouseEvent } from "react";
 
-type HeaderProps = {
-  toggleCart: (e: MouseEvent) => void;
-};
-
-const Header = ({ toggleCart }: HeaderProps) => {
+const Header = ({ toggleCart }) => {
   const { nav, header, leftNav, rightNav, logoLink } = styles;
 
   return (

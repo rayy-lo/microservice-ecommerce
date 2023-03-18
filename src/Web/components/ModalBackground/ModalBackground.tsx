@@ -4,14 +4,9 @@ import styles from "./ModalBackground.module.css";
 type ModalBackgroundProps = {
   children?: ReactNode;
   isOpen: boolean;
-  openModal: (e: MouseEvent) => void;
 };
 
-const ModalBackground = ({
-  children,
-  isOpen,
-  openModal,
-}: ModalBackgroundProps) => {
+const ModalBackground = ({ children, isOpen }: ModalBackgroundProps) => {
   const { modal } = styles;
 
   const isOpenClass = isOpen ? modal : "";

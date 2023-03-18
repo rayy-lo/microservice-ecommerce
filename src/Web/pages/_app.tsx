@@ -13,11 +13,6 @@ const inter = Cormorant_Garamond({ weight: ["400", "700"], style: ["normal"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -27,12 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <Hydrate state={pageProps.dehydratedState}>
-        <Layout toggleCart={toggleCart}>
-          <Component
-            {...pageProps}
-            toggleCart={toggleCart}
-            isCartOpen={isCartOpen}
-          />
+        <Layout>
+          <Component {...pageProps} />
         </Layout>
       </Hydrate>
     </QueryClientProvider>

@@ -8,11 +8,17 @@ import SideCart from "../components/SideCart/SideCart";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { useCart } from "../hooks/useCart";
 import { useCollection } from "../hooks/useCollection";
+import { useSideCart } from "../hooks/useSideCart";
+import Header from "../components/Header/Header";
 
-export default function Home({ isCartOpen, toggleCart }) {
+export default function Home() {
   const { data: cart, isLoading: cartIsLoading } = useCart();
   const { data: collection, isLoading: collectionIsLoading } =
     useCollection("homepage-products");
+
+  const [isCartOpen, toggleCart] = useSideCart();
+
+  console.log({ cart });
 
   return (
     <>
@@ -25,6 +31,7 @@ export default function Home({ isCartOpen, toggleCart }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header toggleCart={toggleCart} />
       <ModalBackground isOpen={isCartOpen}>
         {!cartIsLoading && <SideCart cart={cart!} closeModal={toggleCart} />}
       </ModalBackground>

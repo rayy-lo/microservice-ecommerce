@@ -1,10 +1,12 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
 import Image from "next/image";
+import Header from "../../components/Header/Header";
 import ModalBackground from "../../components/ModalBackground/ModalBackground";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import SideCart from "../../components/SideCart/SideCart";
 import { useCart } from "../../hooks/useCart";
+import { useSideCart } from "../../hooks/useSideCart";
 import styles from "../../styles/ProductPage.module.css";
 import { Product } from "../../types/types";
 
@@ -12,11 +14,7 @@ interface ProductPageProps {
   product: Product;
 }
 
-export default function ProductPage({
-  product,
-  isCartOpen,
-  toggleCart,
-}: ProductPageProps) {
+export default function ProductPage({ product }: ProductPageProps) {
   const {
     productContainer,
     productDetails,
@@ -27,6 +25,7 @@ export default function ProductPage({
   } = styles;
 
   const { data: cart, isLoading: cartIsLoading } = useCart();
+  const [isCartOpen, toggleCart] = useSideCart();
 
   console.log({ cart });
 
@@ -35,6 +34,7 @@ export default function ProductPage({
       <Head>
         <title>{product.name}</title>
       </Head>
+      <Header toggleCart={toggleCart} />
       <ModalBackground isOpen={isCartOpen}>
         {!cartIsLoading && <SideCart cart={cart!} closeModal={toggleCart} />}
       </ModalBackground>
