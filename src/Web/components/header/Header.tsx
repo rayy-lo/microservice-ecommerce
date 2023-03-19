@@ -20,7 +20,7 @@ const Header = ({ toggleCart }) => {
           <Link href="/collection/sale">Sale</Link>
         </div>
         <div className={rightNav}>
-          <Link href="/login">
+          <Link href="/account/login">
             <Image width={25} src={User} alt="Login" />
           </Link>
           <button onClick={toggleCart} type="button">

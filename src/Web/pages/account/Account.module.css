@@ -1,0 +1,21 @@
+.container {
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--primary-theme-color);
+}
+
+.headerText {
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.subText {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.registerLink {
+  margin-left: 0.5rem;
+  text-decoration: underline;
+}
