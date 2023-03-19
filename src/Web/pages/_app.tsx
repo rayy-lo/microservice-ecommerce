@@ -9,7 +9,10 @@ import {
 } from "@tanstack/react-query";
 import { useState } from "react";
 
-const inter = Cormorant_Garamond({ weight: ["400", "700"], style: ["normal"] });
+const inter = Cormorant_Garamond({
+  weight: ["400", "700", "300", "500", "600"],
+  style: ["normal", "italic"],
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
