@@ -4,13 +4,16 @@
   position: fixed;
   height: 100vh;
   right: -100%;
-  padding: 3rem 1rem;
+  padding: 3rem 1.5rem;
   transition: right 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .cartHeader {
   text-align: center;
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .cartCloseBtn {
@@ -21,4 +24,26 @@
   right: 15px;
   cursor: pointer;
   font-size: 1.25rem;
+}
+
+.totals {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totals span {
+  font-size: 1.25rem;
+}
+
+.cartFooter a {
+  display: block;
+  background: var(--primary-color);
+  text-align: center;
+  padding: 0.75rem;
+  align-self: flex-end;
+  margin-top: 1rem;
+}
+
+.cartBody {
+  flex: 1;
 }
