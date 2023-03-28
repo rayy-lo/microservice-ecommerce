@@ -7,6 +7,7 @@ const createConnection = async () => {
       user: process.env.USER_USER,
       password: process.env.USER_USER_PASS,
       database: process.env.USER_DB,
+      namedPlaceholders: true,
     });
 
     console.log("connected as id " + connection.threadId);
