@@ -28,7 +28,6 @@ services:
       MYSQL_DATABASE: ${CATALOG_DB}
     env_file:
       - .env
-    restart: always
     healthcheck:
       test:
         [
@@ -73,6 +72,32 @@ services:
       DATABASE_URL: ${CATALOG_DATABASE_URL}
     volumes:
       - ./Services/Catalog/src:/app/src
+
+  user-api:
+    build:
+      context: ./Services/User
+    ports:
+      - "3005:3005"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${USER_DATABASE_URL}
+    volumes:
+      - ./Services/User/src:/app/src
+
+  user-db:
+    image: mysql:8.0
+    volumes:
+      - ./Services/User/src/database/seed:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: ${USER_ROOT_PASS}
+      MYSQL_USER: ${USER_USER}
+      MYSQL_PASSWORD: ${USER_USER_PASS}
+      MYSQL_DATABASE: ${USER_DB}
+    env_file:
+      - .env
+    ports:
+      - "4002:3306"
 
   client:
     build:
