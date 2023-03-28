@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import { cartProxy, catalogProxy } from "./middleware/proxies";
+import { cartProxy, catalogProxy, userProxy } from "./middleware/proxies";
 import cors from "cors";
 
 const app: Application = express();
@@ -14,6 +14,7 @@ app.use(
 
 app.use(cartProxy);
 app.use(["/collection", "/product"], catalogProxy);
+app.use(["/login", "/register"], userProxy);
 
 app.listen(PORT, () => {
   console.log("API Gateway running on 3004");
