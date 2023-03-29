@@ -1,13 +1,13 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { createConnection } from "../database/config";
+import { CustomRequest } from "../types/types";
 
-export const registerController = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password } = req.body;
+export const registerController = async (req: CustomRequest, res: Response) => {
+  const { firstName, lastName, email } = req.body;
   const query =
     "INSERT INTO user (first_name, last_name, email, password_hash) VALUES (:firstName, :lastName, :email, :password)";
+  const password = req.hashedPass;
   const values = { firstName, lastName, email, password };
-
-  //TODO: Add password hashing
 
   const connection = await createConnection();
   if (connection) {
