@@ -7,9 +7,6 @@ const app: Application = express();
 
 app.use(express.json());
 
-// TODO: Create 4 different endpoints
-// /register, /authenticate, /authorize
-
 app.post("/api/register", hashPassword, registerController);
 app.post("/api/login", loginController);
 
