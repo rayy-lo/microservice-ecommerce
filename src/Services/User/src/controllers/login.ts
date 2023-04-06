@@ -5,13 +5,14 @@ import { IUser } from "../types/types";
 
 export const loginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+
   const connection = await createConnection();
   const query = "SELECT * FROM user WHERE email = :email LIMIT 1";
   const values = { email };
 
   if (connection) {
     const [[user]] = await connection.execute<IUser[]>(query, values);
-    if (user.length < 1) res.status(401).send("Incorrect Credentials");
+    if (!user) return res.status(401).send("Incorrect Credentials");
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
