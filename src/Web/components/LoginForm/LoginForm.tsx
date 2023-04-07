@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 export default function LoginForm() {
-  const { loginForm, submitBtn } = styles;
+  const { loginForm, submitBtn, errorMessage } = styles;
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -37,22 +37,32 @@ export default function LoginForm() {
 
   return (
     <>
-      {mutation.isError ? <div>You entered incorrect credentials</div> : null}
+      {mutation.isError ? (
+        <p className={errorMessage}>{mutation.error.message}</p>
+      ) : null}
 
-      <form onSubmit={mutation.mutate} className={loginForm}>
+      <form autoComplete="on" onSubmit={mutation.mutate} className={loginForm}>
+        <label htmlFor="email" className="visually-hidden">
+          Your Email
+        </label>
         <input
           value={formData.email}
           placeholder="E-mail address"
           onChange={handleInputChange}
           type="email"
           name="email"
+          autoComplete="email"
         />
+        <label htmlFor="password" className="visually-hidden">
+          Your Password
+        </label>
         <input
           value={formData.password}
           onChange={handleInputChange}
           placeholder="Password"
           type="password"
           name="password"
+          autoComplete="current-password"
         />
         <button className={submitBtn} type="submit">
           Sign In
