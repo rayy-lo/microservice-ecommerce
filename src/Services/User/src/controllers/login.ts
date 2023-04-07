@@ -12,14 +12,21 @@ export const loginController = async (req: Request, res: Response) => {
 
   if (connection) {
     const [[user]] = await connection.execute<IUser[]>(query, values);
-    if (!user) return res.status(401).send("Incorrect Credentials");
+    if (!user)
+      return res.status(401).json({
+        message: "Incorrect Credentials",
+      });
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (isMatch) {
-      res.status(200).send("Authentication successful");
+      res.status(200).json({
+        message: "Authenticated",
+      });
     } else {
-      res.status(401).send("Incorrect Credentials");
+      res.status(401).json({
+        message: "Incorrect Credentials",
+      });
     }
   } else {
     res.status(500).send("Server Error");

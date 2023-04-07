@@ -14,11 +14,16 @@ export const registerController = async (req: CustomRequest, res: Response) => {
     connection
       .execute(query, values)
       .then((result) => {
-        res.status(201).send("Registered!");
+        res.status(201).json({
+          message: "Registered!",
+        });
       })
       .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error creating new user");
+        if (error.errno === 1062) {
+          res.status(200).json({
+            message: "Email already exists",
+          });
+        }
       });
   }
 
