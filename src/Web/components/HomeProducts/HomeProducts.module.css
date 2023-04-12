@@ -19,3 +19,35 @@
 .productInfo span {
   font-size: 1.25rem;
 }
+
+@media (max-width: 1080px) {
+  .container {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .productWrapper {
+    width: 40%;
+  }
+
+  .productWrapper img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .productWrapper {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .productWrapper img {
+    width: 250px;
+    height: 250px;
+  }
+}

@@ -28,5 +28,18 @@
   display: block;
   text-transform: uppercase;
   text-align: right;
-  /* font-family:  */
+}
+
+@media (max-width: 1080px) {
+  .form {
+    width: 100%;
+  }
+
+  .emailHeader {
+    text-align: center;
+  }
+
+  .label {
+    justify-content: center;
+  }
 }

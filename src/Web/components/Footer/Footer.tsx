@@ -5,11 +5,11 @@ import FooterEmail from "../FooterEmail/FooterEmail";
 import styles from "./Footer.module.css";
 
 const Footer = () => {
-  const { footer, footerLinks } = styles;
+  const { footer, footerLinks, logo } = styles;
 
   return (
     <footer className={footer}>
-      <Image width={120} src={Logo} alt="Comme Logo" />
+      <Image className={logo} width={120} src={Logo} alt="Comme Logo" />
       <div className={footerLinks}>
         <Link href="/">Home</Link>
         <Link href="/about">About Us</Link>
