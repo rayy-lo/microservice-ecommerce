@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "test:api-gateway": "jest --selectProjects=api-gateway --watchAll --no-cache",
+    "test:cart": "jest --selectProjects=cart --watchAll --no-cache",
+    "test:catalog": "jest --selectProjects=catalog --watchAll --no-cache",
+    "test:user": "jest --selectProjects=user --watchAll --no-cache",
+    "test:web-client": "jest --selectProjects=web-client --watchAll --no-cache"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  }
+}
