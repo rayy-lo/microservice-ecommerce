@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
 import { handleize } from "../helpers/handleize";
 import { isStringOnlyNumbers } from "../helpers/isStringOnlyNumbers";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 const prisma = new PrismaClient();
 
@@ -55,10 +56,15 @@ export const deleteProduct = async (
     });
 
     return {
-      status: 200,
+      status: 204,
       success: true,
     };
   } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return { status: 204, success: true };
+      }
+    }
     return { status: 400, success: false };
   }
 };
@@ -84,6 +90,11 @@ export const updateProduct = async (
       data: updatedProduct,
     };
   } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return { status: 404, success: false };
+      }
+    }
     return { status: 400, success: false };
   }
 };
@@ -109,11 +120,16 @@ export const createProduct = async (
     });
 
     return {
-      status: 200,
+      status: 201,
       success: true,
       data: product,
     };
   } catch (error) {
-    return { status: 400, success: false };
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return { status: 409, success: false };
+      }
+    }
+    return { status: 500, success: false };
   }
 };
