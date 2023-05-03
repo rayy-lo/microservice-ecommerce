@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
 import { handleize } from "../utils/handleize";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 const prisma = new PrismaClient();
 
@@ -17,6 +18,14 @@ export const getCollection = async (
       },
       include: { products: true },
     });
+
+    if (!collection) {
+      return {
+        status: 404,
+        success: false,
+        data: collection,
+      };
+    }
 
     return {
       status: 200,
@@ -58,12 +67,17 @@ export const createCollection = async (
     }
 
     return {
-      status: 200,
+      status: 201,
       success: true,
       data: collection,
     };
   } catch (error) {
-    return { status: 400, success: false };
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return { status: 409, success: false };
+      }
+    }
+    return { status: 500, success: false };
   }
 };
 export const deleteCollection = async (
@@ -80,10 +94,15 @@ export const deleteCollection = async (
     });
 
     return {
-      status: 200,
+      status: 204,
       success: true,
     };
   } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return { status: 204, success: true };
+      }
+    }
     return { status: 400, success: false };
   }
 };
@@ -109,6 +128,11 @@ export const updateCollection = async (
       data: updatedCollection,
     };
   } catch (error) {
-    return { status: 400, success: false };
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return { status: 404, success: false };
+      }
+    }
+    return { status: 500, success: false };
   }
 };
