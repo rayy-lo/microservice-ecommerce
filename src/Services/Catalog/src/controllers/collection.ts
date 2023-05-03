@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
-import { handleize } from "../helpers/handleize";
+import { handleize } from "../utils/handleize";
 
 const prisma = new PrismaClient();
 

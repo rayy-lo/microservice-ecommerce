@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { DataObject } from "../types/types";
-import { handleize } from "../helpers/handleize";
-import { isStringOnlyNumbers } from "../helpers/isStringOnlyNumbers";
+import { handleize } from "../utils/handleize";
+import { isStringOnlyNumbers } from "../utils/isStringOnlyNumbers";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 const prisma = new PrismaClient();
@@ -95,7 +95,7 @@ export const updateProduct = async (
         return { status: 404, success: false };
       }
     }
-    return { status: 400, success: false };
+    return { status: 500, success: false };
   }
 };
 
