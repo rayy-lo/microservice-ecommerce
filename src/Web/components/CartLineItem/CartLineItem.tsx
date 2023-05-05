@@ -7,7 +7,7 @@ const CartLineItem = ({ item }) => {
 
   return (
     <form className={container}>
-      <Image height={100} width={100} src={item.imageUrl} alt={item.title} />
+      <Image height={100} width={100} src={item.imageUrl} alt={item.name} />
       <div className={infoContainer}>
         <Link href={item.url}>{item.name}</Link>
         <span>${item.price}</span>
