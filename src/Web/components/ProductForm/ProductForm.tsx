@@ -33,7 +33,7 @@ export default function ProductForm({ product }: ProductFormProps) {
 
   return (
     <form data-product-id={product.id} className={form} onSubmit={submitForm}>
-      <input name="quantity" type="number" min={1} defaultValue={1}></input>
+      <input hidden name="quantity" type="number" min={1} defaultValue={1}></input>
       <button className={button} type="submit">
         Add To Cart
       </button>
