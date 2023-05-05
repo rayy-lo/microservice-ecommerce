@@ -9,10 +9,12 @@ module.exports = {
     {
       displayName: "api-gateway",
       rootDir: "src/ApiGateway",
+      preset: "ts-jest/presets/default-esm",
     },
     {
       displayName: "cart",
       rootDir: "src/Services/Cart",
+      preset: "ts-jest/presets/default-esm",
     },
     {
       displayName: "catalog",
@@ -27,6 +29,7 @@ module.exports = {
     {
       displayName: "web-client",
       rootDir: "src/Web",
+      preset: "ts-jest/presets/default-esm",
     },
   ],
 };
