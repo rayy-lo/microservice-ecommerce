@@ -53,3 +53,8 @@ export const postCart = async (req: Request, res: Response) => {
     res.status(500).send("Error adding items to cart");
   }
 };
+
+export const deleteCart = async (req: Request, res: Response) => {
+  // Delete cartId cookie in setCookie middleware
+  res.status(204).send();
+};

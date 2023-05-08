@@ -6,11 +6,15 @@ const COOKIE_OPTIONS = {
 };
 
 export const setCookie = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.cookies.cartId);
   if (!req.cookies.cartId) {
     const sessionId = uuidv4();
     req.app.locals.cartId = sessionId;
     res.cookie("cartId", sessionId, COOKIE_OPTIONS);
   }
+
+  if (req.method === "DELETE") {
+    res.clearCookie("cartId", { path: "/" });
+  }
+
   next();
 };
