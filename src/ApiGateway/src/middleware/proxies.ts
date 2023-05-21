@@ -15,14 +15,18 @@ const userProxy = createProxyMiddleware(["/login", "/register"], {
   target: `${process.env.USER_API_URL}/api/`,
   changeOrigin: true,
   onProxyRes: (proxyRes, req, res) => {
-    // Generate access token
+    // Generate id token
     if (proxyRes.statusCode === 200) {
-      const accessToken = jwt.sign(
-        { isSignedIn: true },
+      const idToken = jwt.sign(
+        { email: true },
         `${process.env.USER_JWT_SECRET}`
       );
-      res.cookie("jwt", accessToken, {
+
+      res.cookie("id_token", idToken, {
+        expires: new Date(Date.now() + 900000),
         httpOnly: true,
+        sameSite: "none",
+        secure: true,
       });
     }
   },
