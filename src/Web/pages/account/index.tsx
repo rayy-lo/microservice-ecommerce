@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import Header from "../../components/Header/Header";
 import ModalBackground from "../../components/ModalBackground/ModalBackground";
 import { useSideCart } from "../../hooks/useSideCart";
@@ -19,3 +20,14 @@ export default function Account() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_GATEWAY_URL}`);
+  //get user orders
+  //user should be authenticated, if not redirect to login
+  //authenticated uses will have an id_token witht their email
+  //use email to find their orders and return
+  // const user = res.json();
+
+  return { props: {} };
+};
