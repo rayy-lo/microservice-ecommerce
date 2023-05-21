@@ -14,7 +14,7 @@ export const getProductData = async (
 ) => {
   const items = req.body.items || [];
 
-  //TODO: Handle requests with multiple items
+  //TODO: Handle requests with multiple items and non existent productIds - axios will throw error on a non existent productId
   const productIds = items.map((product: PostProduct) => product.id);
 
   const { data } = await axios.get(

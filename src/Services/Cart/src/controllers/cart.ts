@@ -17,7 +17,11 @@ export const getCart = async (req: Request, res: Response) => {
 
   try {
     let cartData = await redisClient.get(req.cookies.cartId);
-    res.status(200).json(JSON.parse(cartData!));
+
+    const parsedOldCart = JSON.parse(cartData!);
+    const cart = new Cart(parsedOldCart.items);
+
+    res.status(200).json(cart);
   } catch (e) {
     console.error(e);
     res.status(500).send("Error fetching cart data");
@@ -58,3 +62,5 @@ export const deleteCart = async (req: Request, res: Response) => {
   // Delete cartId cookie in setCookie middleware
   res.status(204).send();
 };
+
+export const updateCart = async (req: Request, res: Response) => {};
